@@ -12,28 +12,28 @@ library(magrittr)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-
-    # Application title
-    titlePanel("Edit replications"),
-
-    # Sidebar with a slider input for number of bins 
-    sidebarLayout(
-        sidebarPanel(
-            selectInput("file",
-                        "File to edit",
-                        choices = setdiff(list.files("./data/", "*.md"), "README.md")),
-            "Changes are auto-saved when you select a different file"
-        ),
-
-        # Show a plot of the generated distribution
-        mainPanel(
-          textInput("title", "Effect name (brief)"),
-          textInput("effect_names", "Effect (with alternative names, if any)"),
-          textInput("effect_description", "Effect description & evidence summary"),
-          textInput("status", "Status"),
-          textInput("original_paper", "Original Paper")
-        )
+  
+  # Application title
+  titlePanel("Edit replications"),
+  
+  # Sidebar with a slider input for number of bins 
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("file",
+                  "File to edit",
+                  choices = setdiff(list.files("./data/", "*.md"), "README.md")),
+      "Changes are auto-saved when you select a different file"
+    ),
+    
+    # Show a plot of the generated distribution
+    mainPanel(
+      textInput("title", "Effect name (brief)"),
+      textInput("effect_names", "Effect (with alternative names, if any)"),
+      textInput("effect_description", "Effect description & evidence summary"),
+      textInput("status", "Status"),
+      textInput("original_paper", "Original Paper")
     )
+  )
 )
 
 # Define server logic required to draw a histogram
@@ -67,16 +67,16 @@ server <- function(input, output, session) {
     }
     
     if (exists("previous_file") && file != previous_file && stringr::str_length(previous_file) > 1) {
-    commit_and_push(previous_file)
+      commit_and_push(previous_file)
     }
     previous_file <<- file
     
-})
+  })
   
 }
 
 read_md_file <- function(file_name) {
-
+  
   withCallingHandlers({
     text <- readLines(file.path("data", file_name))
   }, warning=function(w) {
@@ -107,8 +107,8 @@ read_md_file <- function(file_name) {
 
 write_md_file <- function(effect, filename) {
   text <- c(paste("####", effect$title, "\n"),
-    paste("* **", effect$effect_names, ".**", effect$effect_description),
-    purrr::map2_chr(names(effect[-c(1:3)]), effect[-c(1:3)], ~paste0("* _", .x, ":_ ", .y)))
+            paste("* **", effect$effect_names, ".**", effect$effect_description),
+            purrr::map2_chr(names(effect[-c(1:3)]), effect[-c(1:3)], ~paste0("* _", .x, ":_ ", .y)))
   
   writeLines(text, file.path("./data", filename))
 }
@@ -121,8 +121,9 @@ commit_and_push <- function(filename) {
     message("Pushed ", filename)
   }
 }
-  
+
 
 if(exists("previous_file")) rm(previous_file)
+
 
 shinyApp(ui = ui, server = server)

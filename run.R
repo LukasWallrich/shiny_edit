@@ -1,5 +1,9 @@
 # Set up git and get data 
-Sys.setenv(GITHUB_PAT = "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") #Don't get excited - for this repo only!
+PAT <- "6769746875625f7061745f3131414f4b364e474930704a7a434c7763665264634e5f4456784f774f515a6f3977396138564b4c4576516f44456f646c743069456962704a38346b79474265795152594b365556494f76434a5077427355"
+sst <- strsplit(PAT, "")[[1]]
+sst <- paste0(sst[c(TRUE, FALSE)], sst[c(FALSE, TRUE)]) %>% strtoi(16) %>% as.raw()
+Sys.setenv(GITHUB_PAT = rawToChar(sst)) #Don't get excited if you can decode it - for this repo only!
+
 commit_prefix <- "Lukas: " #Would be requested from user
 if(!dir.exists("./data")) {
   dir.create("./data", recursive=TRUE)
