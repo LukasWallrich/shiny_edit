@@ -13,7 +13,7 @@ libcurl4-openssl-dev \
 libxml2-dev
 
 # Install the R libraries needed to run the scripts
-RUN /usr/bin/R --vanilla -f install_libraries.R
+RUN /usr/bin/R --vanilla -f install_packages.R
 
 EXPOSE 8080
 
