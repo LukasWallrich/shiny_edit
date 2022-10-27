@@ -91,10 +91,10 @@ read_md_file <- function(file_name) {
   detail_list["effect_names"] <- text[2] %>% stringr::str_match("\\*\\*\\s*(.*?)\\s*\\*\\*") %>% .[,2] %>% stringr::str_trim() %>% stringr::str_remove("\\.$")
   detail_list["effect_description"] <- text[2] %>% stringr::str_remove(stringr::fixed(detail_list[["effect_names"]])) %>% stringr::str_remove("^[^[:alpha:]]+")
   
-  categories <- c("Status:", "Original paper:", "Critiques:", "Original effect size:", "Replication effect size:")
-  
+  categories <- c("Status", "Original paper", "Critiques", "Original effect size", "Replication effect size")
+
   for (i in 3:length(text)) {
-    category <- categories[stringr::str_detect(text[i], categories)]
+    category <- categories[stringr::str_detect(stringr::str_extract(text[i], "^.*\\:"), categories)]
     if(length(category) > 0 && !is.na(category)) {
       detail_list[category] <- stringr::str_remove(text[i], category) %>% stringr::str_remove("^[^[:alpha:]]+")
     } else {
