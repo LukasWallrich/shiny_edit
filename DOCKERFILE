@@ -26,4 +26,4 @@ RUN R -e 'install.packages("git2r")'
 EXPOSE 8080
 
 # Execute the target script
-CMD ["Rscript", "run.R"]
+CMD ["Rscript", "app.R"]
