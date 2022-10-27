@@ -18,7 +18,7 @@ RUN apt-get update && \
     apt-get install -y -qq \
     	r-cran-dplyr \
     	r-cran-stringr \
-    	r-cran-rccp \
+    	r-cran-rcpp \
     	r-cran-shiny
     	
 RUN R -e 'install.packages("git2r")'
