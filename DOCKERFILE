@@ -1,5 +1,5 @@
 # start with the official R project base image
-FROM r-base:latest
+FROM rocker/r-apt:bionic
 
 # copy this github repo into the Docker image and set as the working directory
 COPY . /usr/local/src/myscripts
@@ -13,7 +13,14 @@ libcurl4-openssl-dev \
 libxml2-dev
 
 # Install the R libraries needed to run the scripts
-RUN /usr/bin/R --vanilla -f install_packages.R
+
+RUN apt-get update && \
+    apt-get install -y -qq \
+    	r-cran-dplyr \
+    	r-cran-stringr \
+    	r-cran-shiny
+    	
+RUN R -e 'install.packages("git2r")'
 
 EXPOSE 8080
 
